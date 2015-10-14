@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Models\InputInfo.cs" />
     <Compile Include="Models\Placement.cs" />
     <Compile Include="Models\RobotPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
