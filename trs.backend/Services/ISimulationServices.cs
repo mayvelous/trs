@@ -12,9 +12,9 @@ namespace trs.backend.Services
     {
         IList<Placement> ConfigurePlacements();
         InputInfo GetValidatedCommand(string cmdStr, ref bool isFirstCmd);
-        RobotPosition PerformAction(InputInfo inputInfo);
-        RobotPosition Place(InputInfo inputInfos);
-        RobotPosition Move(InputInfo inputInfos);
+        string PerformAction(InputInfo inputInfo);
+        //RobotPosition Place(InputInfo inputInfos);
+        //RobotPosition Move(InputInfo inputInfos);
         
         //RobotPosition Left(RobotPosition pos);
         //RobotPosition Right(RobotPosition pos);

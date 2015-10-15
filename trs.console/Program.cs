@@ -21,7 +21,7 @@ namespace trs.console
             while (true)
             {
                 // Accept Command String Input
-                string inputStr = AcceptCommandInput();
+                string inputStr = Console.ReadLine(); 
                 if (inputStr == "exit" || inputStr == "EXIT")
                 {
                     Environment.Exit(0);
@@ -31,29 +31,20 @@ namespace trs.console
                 {
                     // Validate Command Keyword
                     var inputInfo = _svc.GetValidatedCommand(inputStr, ref isFirstCmd);
-
-                    
-
                     // Perform Command Action
                     Console.WriteLine(_svc.PerformAction(inputInfo));
-
-                    
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
-                //Console.WriteLine(driver.Command(command));
-
             }
-
-
         }
 
-        private static string AcceptCommandInput()
-        {
-            return Console.ReadLine();
-        }
+        //private static string AcceptCommandInput()
+        //{
+        //    return Console.ReadLine();
+        //}
 
         
 

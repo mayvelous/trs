@@ -8,8 +8,8 @@ namespace trs.backend.Common
 {
     public enum Turns : int
     {
-        Left = 1,
-        Right = -1
+        Right = 1,
+        Left = -1
     }
 
     public enum Commands

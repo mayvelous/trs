@@ -10,16 +10,16 @@ namespace trs.backend.Services
 {
     public class SimulationServices : ISimulationServices
     {
-        public RobotPosition RobotNow;
-        public IList<Placement> PlacementConfigs;
+        private RobotPosition _robotAt;        
         private readonly int minVal = 0;
         private readonly int maxVal = 4;
+        private IList<Placement> _configs;
 
-        public SimulationServices(RobotPosition robo)
+        public SimulationServices(RobotPosition robot)
         {
-            RobotNow = robo;
+            _robotAt = robot;
             // Initialize and configure default placement settings
-            PlacementConfigs = ConfigurePlacements();
+            _configs = ConfigurePlacements();
         }
 
         // TODO: Need to refine this so later can load JSON list etc..
@@ -119,86 +119,84 @@ namespace trs.backend.Services
             return result;
         }
 
-        public RobotPosition PerformAction(InputInfo inputInfo)
+        public string PerformAction(InputInfo inputInfo)
         {
             switch (inputInfo.CmdKey)
             {
                 case Commands.PLACE:
-                    return Place(inputInfo);
+                    _robotAt = Place(inputInfo);
                     break;
                 case Commands.MOVE:
-                    return Move(inputInfo);
+                    _robotAt = Move(inputInfo);
                     break;
-                //case Commands.LEFT:
-                //    _svc.Left();
-                //    break;
-                //case Commands.RIGHT:
-                //    _svc.Right();
-                //    break;
-                //case Commands.REPORT:
-                //    _svc.Report();
-                //    break;
+                case Commands.LEFT:
+                    _robotAt = Turning(inputInfo, Turns.Left);
+                    break;
+                case Commands.RIGHT:
+                    _robotAt = Turning(inputInfo, Turns.Right);
+                    break;
+                case Commands.REPORT:
+                    return GetRobotAt(_robotAt);
+                    break;
                 default:
-                    throw new Exception("Something not right, should never see this!");
-                    //break;
-
+                    return("Oops something gone wrong!");
+                    break;
             }
+
+            return GetRobotAt(_robotAt);
         }
 
         public RobotPosition Place(InputInfo inputInfo)
         {
-            if (RobotNow == null) throw new Exception("Robot hasnt been initialize yet.");
-            RobotNow.XVal = inputInfo.XVal.GetValueOrDefault();
-            RobotNow.YVal = inputInfo.YVal.GetValueOrDefault();
-            RobotNow.Facing = inputInfo.FVal;
+            if (_robotAt == null) throw new Exception("Robot hasnt been initialize yet.");
+            _robotAt.XVal = inputInfo.XVal.GetValueOrDefault();
+            _robotAt.YVal = inputInfo.YVal.GetValueOrDefault();
+            _robotAt.Facing = inputInfo.FVal;
 
-            return RobotNow;
+            return _robotAt;
         }
 
         public RobotPosition Move(InputInfo inputInfo)
         {
-            string facingAt = Enum.GetName(typeof(Directions), inputInfo.FVal);
+            string currentlyFacingAt = Enum.GetName(typeof(Directions), _robotAt.Facing);
             // Check RobotNow Facing value against placementconfig
-            var conf = PlacementConfigs.FirstOrDefault(x => x.Name == facingAt);
+            var conf = _configs.FirstOrDefault(x => x.Name == currentlyFacingAt);
             if (conf == null) throw new Exception("Cannot find placement configs using current facing.");
             // Validate the new coordinates before assigning to RoboNow
-            var newX = RobotNow.XVal + conf.XVal;
-            var newY = RobotNow.YVal + conf.YVal;
+            var newX = _robotAt.XVal + conf.XVal;
+            var newY = _robotAt.YVal + conf.YVal;
 
             if (IsValidXY(newX, newY))
             {
                 // Assign new values to RoboNow
-                RobotNow.XVal += conf.XVal;
-                RobotNow.YVal += conf.YVal;
+                _robotAt.XVal += conf.XVal;
+                _robotAt.YVal += conf.YVal;
             }
 
-            return RobotNow;
+            return _robotAt;
         }
 
-        //public RobotPosition Left(RobotPosition pos)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public RobotPosition Right(RobotPosition pos)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //public RobotPosition Report(RobotPosition pos)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public RobotPosition Turning(InputInfo inputInfo, Turns turnTo)
+        {
+            // Get the current facing value and +1 to it
+            var newFacing = (int)_robotAt.Facing + (int)turnTo;
 
-        //public RobotPosition Place(RobotPosition pos)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            throw new NotImplementedException();
+        }
 
         private bool IsValidXY(int xVal, int yVal)
         {
             if (xVal < minVal || xVal > maxVal || yVal < minVal || yVal > maxVal) throw new Exception("Oop bad move, you can go there!");
             return true;
+        }
+
+        private string GetRobotAt(RobotPosition robo)
+        {
+            if (robo == null) return string.Empty;
+            // eg. Output: 0,0,WEST
+            return String.Format("{0},{1},{2}", robo.XVal, robo.YVal, robo.Facing);
         }
     }
 }
