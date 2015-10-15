@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using trs.backend.Models;
 using trs.backend.Services;
 
@@ -17,7 +18,7 @@ namespace trs.console
             {
                 // Accept Command String Input
                 string inputStr = Console.ReadLine(); 
-                if (inputStr.ToUpper() == "EXIT")
+                if (inputStr.Trim().ToUpper() == "EXIT")
                 {
                     Environment.Exit(0);
                 }
@@ -33,7 +34,7 @@ namespace trs.console
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
         }

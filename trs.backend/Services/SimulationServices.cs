@@ -142,7 +142,6 @@ namespace trs.backend.Services
                     break;
             }
 
-            //return GetRobotAt(_robotAt);
             return string.Empty;
         }
 
