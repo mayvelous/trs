@@ -22,7 +22,6 @@ namespace trs.backend.Services
             _configs = ConfigurePlacements();
         }
 
-        // TODO: Need to refine this so later can load JSON list etc..
         public IList<Placement> ConfigurePlacements()
         {
             /* 
@@ -146,7 +145,7 @@ namespace trs.backend.Services
             return GetRobotAt(_robotAt);
         }
 
-        public RobotPosition Place(InputInfo inputInfo)
+        private RobotPosition Place(InputInfo inputInfo)
         {
             if (_robotAt == null) throw new Exception("Robot hasnt been initialize yet.");
             _robotAt.XVal = inputInfo.XVal.GetValueOrDefault();
@@ -156,7 +155,7 @@ namespace trs.backend.Services
             return _robotAt;
         }
 
-        public RobotPosition Move(InputInfo inputInfo)
+        private RobotPosition Move(InputInfo inputInfo)
         {
             var conf = FindPlacementConfig(_robotAt.Facing);
             // Validate the new coordinates before assigning to RoboNow
@@ -172,7 +171,7 @@ namespace trs.backend.Services
             return _robotAt;
         }
 
-        public RobotPosition Turning(InputInfo inputInfo, Turns turnTo)
+        private RobotPosition Turning(InputInfo inputInfo, Turns turnTo)
         {
             // get currently facing configs
             var conf = FindPlacementConfig(_robotAt.Facing);

@@ -13,11 +13,5 @@ namespace trs.backend.Services
         IList<Placement> ConfigurePlacements();
         InputInfo GetValidatedCommand(string cmdStr, ref bool isFirstCmd);
         string PerformAction(InputInfo inputInfo);
-        //RobotPosition Place(InputInfo inputInfos);
-        //RobotPosition Move(InputInfo inputInfos);
-        
-        //RobotPosition Left(RobotPosition pos);
-        //RobotPosition Right(RobotPosition pos);
-        //RobotPosition Report(RobotPosition pos);
     }
 }

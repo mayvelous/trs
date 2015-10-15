@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using trs.backend.Common;
 using trs.backend.Models;
 using trs.backend.Services;
 
@@ -40,16 +35,5 @@ namespace trs.console
                 }
             }
         }
-
-        //private static string AcceptCommandInput()
-        //{
-        //    return Console.ReadLine();
-        //}
-
-        
-
-
-
-        
     }
 }
