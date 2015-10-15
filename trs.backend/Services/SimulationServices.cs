@@ -178,6 +178,7 @@ namespace trs.backend.Services
             var conf = FindPlacementConfig(_robotAt.Facing);
             // Get the current facing value and +1 to it
             var newFacingVal = (int)conf.FacingVal + (int)turnTo;
+
             // Check for valid turn since can keep turning the same direction 360 again and again
             // if keep turing RIGHT +1
             if (newFacingVal > 4)
@@ -185,6 +186,7 @@ namespace trs.backend.Services
             // if keep turning LEFT -1
             if (newFacingVal <= 0)
                 newFacingVal = 4;
+
             // Get the Directions of newFacingVal
             string newDirectionName = Enum.GetName(typeof(Directions), newFacingVal);
             Directions newDirection;
