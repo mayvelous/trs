@@ -17,7 +17,7 @@ namespace trs.console
             {
                 // Accept Command String Input
                 string inputStr = Console.ReadLine(); 
-                if (inputStr == "exit" || inputStr == "EXIT")
+                if (inputStr.ToUpper() == "EXIT")
                 {
                     Environment.Exit(0);
                 }
