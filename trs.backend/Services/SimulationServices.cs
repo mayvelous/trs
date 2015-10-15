@@ -164,8 +164,8 @@ namespace trs.backend.Services
             if (IsValidXY(newX, newY))
             {
                 // Assign new values to RoboNow
-                _robotAt.XVal += conf.XVal;
-                _robotAt.YVal += conf.YVal;
+                _robotAt.XVal = newX;
+                _robotAt.YVal = newY;
             }
 
             return _robotAt;
