@@ -27,7 +27,9 @@ namespace trs.console
                     // Validate Command Keyword
                     var inputInfo = _svc.GetValidatedCommand(inputStr, ref isFirstCmd);
                     // Perform Command Action
-                    Console.WriteLine(_svc.PerformAction(inputInfo));
+                    var strResult = _svc.PerformAction(inputInfo);
+                    if(!String.IsNullOrEmpty(strResult))
+                        Console.WriteLine(strResult);
                 }
                 catch (Exception ex)
                 {

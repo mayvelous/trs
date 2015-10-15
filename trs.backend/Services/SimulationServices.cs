@@ -142,7 +142,8 @@ namespace trs.backend.Services
                     break;
             }
 
-            return GetRobotAt(_robotAt);
+            //return GetRobotAt(_robotAt);
+            return string.Empty;
         }
 
         private RobotPosition Place(InputInfo inputInfo)
@@ -207,7 +208,7 @@ namespace trs.backend.Services
 
         private bool IsValidXY(int xVal, int yVal)
         {
-            if (xVal < minVal || xVal > maxVal || yVal < minVal || yVal > maxVal) throw new Exception("Oop bad move, you can go there!");
+            if (xVal < minVal || xVal > maxVal || yVal < minVal || yVal > maxVal) throw new Exception("Oops bad move, you can go there!");
             return true;
         }
 
