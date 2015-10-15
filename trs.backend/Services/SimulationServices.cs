@@ -158,14 +158,10 @@ namespace trs.backend.Services
 
         public RobotPosition Move(InputInfo inputInfo)
         {
-            string currentlyFacingAt = Enum.GetName(typeof(Directions), _robotAt.Facing);
-            // Check RobotNow Facing value against placementconfig
-            var conf = _configs.FirstOrDefault(x => x.Name == currentlyFacingAt);
-            if (conf == null) throw new Exception("Cannot find placement configs using current facing.");
+            var conf = FindPlacementConfig(_robotAt.Facing);
             // Validate the new coordinates before assigning to RoboNow
             var newX = _robotAt.XVal + conf.XVal;
             var newY = _robotAt.YVal + conf.YVal;
-
             if (IsValidXY(newX, newY))
             {
                 // Assign new values to RoboNow
@@ -176,14 +172,36 @@ namespace trs.backend.Services
             return _robotAt;
         }
 
-
-
         public RobotPosition Turning(InputInfo inputInfo, Turns turnTo)
         {
+            // get currently facing configs
+            var conf = FindPlacementConfig(_robotAt.Facing);
             // Get the current facing value and +1 to it
-            var newFacing = (int)_robotAt.Facing + (int)turnTo;
+            var newFacingVal = (int)conf.FacingVal + (int)turnTo;
+            // Check for valid turn since can keep turning the same direction 360 again and again
+            // if keep turing RIGHT +1
+            if (newFacingVal > 4)
+                newFacingVal = 1;
+            // if keep turning LEFT -1
+            if (newFacingVal <= 0)
+                newFacingVal = 4;
+            // Get the Directions of newFacingVal
+            string newDirectionName = Enum.GetName(typeof(Directions), newFacingVal);
+            Directions newDirection;
+            Enum.TryParse(newDirectionName, out newDirection);
 
-            throw new NotImplementedException();
+            // Update the current Robot facing value
+            _robotAt.Facing = newDirection;
+            return _robotAt;
+        }
+
+        private Placement FindPlacementConfig(Directions fVal)
+        {
+            string currentlyFacingAt = Enum.GetName(typeof(Directions), fVal);
+            // Check RobotNow Facing value against placementconfig
+            var conf = _configs.FirstOrDefault(x => x.Name == currentlyFacingAt);
+            if (conf == null) throw new Exception("Cannot find placement configs using current facing.");
+            return conf;
         }
 
         private bool IsValidXY(int xVal, int yVal)
@@ -196,7 +214,7 @@ namespace trs.backend.Services
         {
             if (robo == null) return string.Empty;
             // eg. Output: 0,0,WEST
-            return String.Format("{0},{1},{2}", robo.XVal, robo.YVal, robo.Facing);
+            return String.Format(">> Robot At: {0},{1},{2}", robo.XVal, robo.YVal, robo.Facing);
         }
     }
 }
